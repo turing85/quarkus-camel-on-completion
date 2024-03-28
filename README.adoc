@@ -1,0 +1,66 @@
+= quarkus-camel-on-completion
+
+This project shows how we can poll a source database periodically, transfer the data read to a target database and then mark the data in the source database as processed.
+
+== Prerequisites
+To run this project, docker or a docker-compatible container environment is used.
+
+For the initial startup, an internet connection is necessary to pull the necessary images (postgresql and MS SQL).
+
+== Overview
+The application is driven by a scheduler, which fires every ten seconds.
+The scheduler is configured as greedy, so if data is read, it will fire again immediately.
+Furthermore, the scheduler is fired to run synchronously, i.e. it wil. not fire if it is already running.
+
+When the scheduler fires, at most two entries from the database will be fetched from the source database.
+If any entries were fetched, the entries will be transferred to the target database.
+Finally, the entries fetched from the source database will be marked as processed.
+
+== Running the example
+To run the example, we can execute
+
+[tabs]
+====
+Linux::
++
+.Run the application
+[source,bash]
+----
+./mvnw clean quarkus:dev
+----
+
+Windows::
++
+.Run the application
+[source,cmd]
+----
+mvnw.cmd clean quarkus:dev
+----
+====
+
+This will initialize and start the source- (postgres) and target- (ms sql) database.
+The source database will be filled with three entries, which will be transferred to the target database.
+
+== Contributors ✨
+
+Thanks goes to these wonderful people (https://allcontributors.org/docs/en/emoji-key[emoji key]):
+
+++++
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://turing85.github.io"><img src="https://avatars.githubusercontent.com/u/32584495?v=4?s=100" width="100px;" alt="Marco Bungart"/><br /><sub><b>Marco Bungart</b></sub></a><br /><a href="#code-turing85" title="Code">💻</a> <a href="#maintenance-turing85" title="Maintenance">🚧</a> <a href="#doc-turing85" title="Documentation">📖</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+++++
+
+This project follows the https://github.com/all-contributors/all-contributors[all-contributors] specification. Contributions of any kind welcome!

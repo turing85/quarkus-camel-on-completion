@@ -1,0 +1,4 @@
+CREATE TABLE data(
+    id BIGINT PRIMARY KEY,
+    data TEXT NOT NULL
+);
