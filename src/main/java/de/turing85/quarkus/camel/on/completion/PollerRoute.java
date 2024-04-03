@@ -10,6 +10,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import io.agroal.api.AgroalDataSource;
 import io.quarkus.agroal.DataSource;
 import org.apache.camel.Exchange;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.sql.SqlConstants;
 
@@ -64,7 +65,7 @@ public class PollerRoute extends RouteBuilder {
                 .log("done")
             .otherwise()
                 .setProperty(Exchange.SCHEDULER_POLLED_MESSAGES, constant(false))
-                .log("Nothing to do")
+                .log(LoggingLevel.DEBUG, "Nothing to do")
         .end()
         .removeHeader(RESULT_SET);
     // @formatter:on
